@@ -22,3 +22,4 @@ yarn coverage   # tests with c8 coverage; HTML report in coverage/
 | Method | Path | Response |
 |--------|------|----------|
 | GET    | `/`  | `Hello, GitHub Actions!` |
+| GET    | `/health` | `{ "status": "ok" }` (JSON) |
