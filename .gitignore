@@ -1,0 +1,10 @@
+# Dependencies and build output (all labs)
+node_modules/
+coverage/
+
+# Lab handouts stay local
+*.pdf
+*.docx
+
+.env
+*.log

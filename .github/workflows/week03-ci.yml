@@ -1,0 +1,53 @@
+name: Week 03 CI
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'week03/ci-cd-lab/**'
+      - '.github/workflows/week03-ci.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'week03/ci-cd-lab/**'
+      - '.github/workflows/week03-ci.yml'
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: week03/ci-cd-lab
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Enable Corepack
+        run: corepack enable
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: yarn
+          cache-dependency-path: week03/ci-cd-lab/yarn.lock
+
+      - name: Install dependencies
+        run: yarn install --immutable
+
+      - name: Run ESLint
+        run: yarn lint
+
+      - name: Run tests
+        run: yarn test
+
+      - name: Generate code coverage
+        run: yarn coverage
+
+      - name: Upload coverage HTML report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: code-coverage-report
+          path: week03/ci-cd-lab/coverage/
+          if-no-files-found: ignore
